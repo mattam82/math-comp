@@ -3285,13 +3285,13 @@ by rewrite expf_neq0 // lead_coef_eq0.
 Qed.
 
 Lemma scalp_map p q : scalp p^f q^f = scalp p q.
-Proof. by rewrite /scalp edivp_map edivp_def. Qed.
+Proof. by rewrite !{1}/scalp edivp_map edivp_def. Qed.
 
 Lemma map_divp p q : (p %/ q)^f = p^f %/ q^f.
-Proof. by rewrite /divp edivp_map edivp_def. Qed.
+Proof. by rewrite !{1}/divp edivp_map edivp_def. Qed.
 
 Lemma map_modp p q : (p %% q)^f = p^f %% q^f.
-Proof. by rewrite /modp edivp_map edivp_def. Qed.
+Proof. by rewrite !{1}/modp edivp_map edivp_def. Qed.
 
 Lemma egcdp_map p q :
   egcdp (map_poly f p) (map_poly f q)
@@ -3299,9 +3299,9 @@ Lemma egcdp_map p q :
 Proof.
 wlog le_qp: p q / size q <= size p.
   move=> IH; have [/IH// | lt_qp] := leqP (size q) (size p).
-  have /IH := ltnW lt_qp; rewrite /egcdp !size_map_poly ltnW // leqNgt lt_qp /=.
+  have /IH := ltnW lt_qp; rewrite !{1}/egcdp !size_map_poly ltnW // leqNgt lt_qp /=.
   by case: (egcdp_rec _ _ _) => u v [-> ->].
-rewrite /egcdp !size_map_poly {}le_qp; move: (size q) => n.
+rewrite !{1}/egcdp !size_map_poly {}le_qp; move: (size q) => n.
 elim: n => /= [|n IHn] in p q *; first by rewrite rmorph1 rmorph0.
 rewrite map_poly_eq0; have [_ | nz_q] := ifPn; first by rewrite rmorph1 rmorph0.
 rewrite -map_modp (IHn q (p %% q)); case: (egcdp_rec _ _ n) => u v /=.
@@ -3335,12 +3335,12 @@ Lemma gdcop_rec_map p q n : (gdcop_rec p q n)^f = gdcop_rec p^f q^f n.
 Proof.
 elim: n p q => [|n IH] => /= p q.
   by rewrite map_poly_eq0; case: eqP; rewrite ?rmorph1 ?rmorph0.
-rewrite /coprimep -gcdp_map size_map_poly.
+rewrite !{1}/coprimep -gcdp_map size_map_poly.
 by case: eqP => Hq0 //; rewrite -map_divp -IH.
 Qed.
 
 Lemma gdcop_map p q : (gdcop p q)^f = gdcop p^f q^f.
-Proof. by rewrite /gdcop gdcop_rec_map !size_map_poly. Qed.
+Proof. by rewrite !{1}/gdcop gdcop_rec_map !size_map_poly. Qed.
 
 End FieldMap.
 

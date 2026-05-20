@@ -1893,7 +1893,8 @@ Proof. by move=> /leq_card; rewrite !card_ord. Qed.
 Arguments inj_leq [m n] f _.
 
 (* bijection between any finType T and the Ordinal finType of its cardinal *)
-
+Cumulativity Transparent SubType.sort.
+Cumulativity Transparent fintype_ordinal__canonical__eqtype_SubType.
 Lemma enum_rank_subproof (T : finType) x0 (A : {pred T}) : x0 \in A -> 0 < #|A|.
 Proof. by move=> Ax0; rewrite (cardD1 x0) Ax0. Qed.
 

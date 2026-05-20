@@ -472,7 +472,7 @@ Definition cube := 'I_6.
 HB.instance Definition _ := SubType.on cube.
 HB.instance Definition _ := Finite.on cube.
 
-Definition mkFcube i : cube := Sub (i %% 6) (ltn_mod i 6).
+Definition mkFcube i : cube := Sub@{0 0} (i %% 6) (ltn_mod i 6).
 Definition F0 := mkFcube 0.
 Definition F1 := mkFcube 1.
 Definition F2 := mkFcube 2.
@@ -493,47 +493,47 @@ Definition S23f (sc : cube) : cube := tnth [tuple of S23] sc.
 
 (* rotations 90 *)
 Definition R05 := [:: F0; F2; F4; F1; F3; F5].
-Definition R05f (sc : cube) : cube := tnth [tuple of R05] sc.
+Definition R05f@{} (sc : cube) : cube := tnth [tuple of R05] sc.
 Definition R50 := [:: F0; F3; F1; F4; F2; F5].
-Definition R50f (sc : cube) : cube := tnth  [tuple of R50] sc.
+Definition R50f@{} (sc : cube) : cube := tnth  [tuple of R50] sc.
 Definition R14 := [:: F3; F1; F0; F5; F4; F2].
-Definition R14f (sc : cube) : cube := tnth [tuple of R14] sc.
+Definition R14f@{} (sc : cube) : cube := tnth [tuple of R14] sc.
 Definition R41 := [:: F2; F1; F5; F0; F4; F3].
-Definition R41f (sc : cube) : cube := tnth [tuple of R41] sc.
+Definition R41f@{} (sc : cube) : cube := tnth [tuple of R41] sc.
 Definition R23 := [:: F1; F5; F2; F3; F0; F4].
-Definition R23f (sc : cube) : cube := tnth [tuple of R23] sc.
+Definition R23f@{} (sc : cube) : cube := tnth [tuple of R23] sc.
 Definition R32 := [:: F4; F0; F2; F3; F5; F1].
-Definition R32f (sc : cube) : cube := tnth [tuple of R32] sc.
+Definition R32f@{} (sc : cube) : cube := tnth [tuple of R32] sc.
 (* rotations 120 *)
 Definition R024 := [:: F2; F5; F4; F1; F0; F3].
-Definition R024f (sc : cube) : cube := tnth [tuple of R024] sc.
+Definition R024f@{} (sc : cube) : cube := tnth [tuple of R024] sc.
 Definition R042 := [:: F4; F3; F0; F5; F2; F1].
-Definition R042f (sc : cube) : cube := tnth [tuple of R042] sc.
+Definition R042f@{} (sc : cube) : cube := tnth [tuple of R042] sc.
 Definition R012 := [:: F1; F2; F0; F5; F3; F4].
-Definition R012f (sc : cube) : cube := tnth [tuple of R012] sc.
+Definition R012f@{} (sc : cube) : cube := tnth [tuple of R012] sc.
 Definition R021 := [:: F2; F0; F1; F4; F5; F3].
-Definition R021f (sc : cube) : cube := tnth [tuple of R021] sc.
+Definition R021f@{} (sc : cube) : cube := tnth [tuple of R021] sc.
 Definition R031 := [:: F3; F0; F4; F1; F5; F2].
-Definition R031f (sc : cube) : cube := tnth [tuple of R031] sc.
+Definition R031f@{} (sc : cube) : cube := tnth [tuple of R031] sc.
 Definition R013 := [:: F1; F3; F5; F0; F2; F4].
-Definition R013f (sc : cube) : cube := tnth [tuple of R013] sc.
+Definition R013f@{} (sc : cube) : cube := tnth [tuple of R013] sc.
 Definition R043 := [:: F4; F2; F5; F0; F3; F1].
-Definition R043f (sc : cube) : cube := tnth [tuple of R043] sc.
+Definition R043f@{} (sc : cube) : cube := tnth [tuple of R043] sc.
 Definition R034 := [:: F3; F5; F1; F4; F0; F2].
-Definition R034f (sc : cube) : cube := tnth [tuple of R034] sc.
+Definition R034f@{} (sc : cube) : cube := tnth [tuple of R034] sc.
 (* last symmetries*)
 Definition S1 := [:: F5; F2; F1; F4; F3; F0].
-Definition S1f (sc : cube) : cube := tnth [tuple of S1] sc.
+Definition S1f@{} (sc : cube) : cube := tnth [tuple of S1] sc.
 Definition S2 := [::  F5; F3; F4; F1; F2; F0].
-Definition S2f (sc : cube) : cube := tnth [tuple of S2] sc.
+Definition S2f@{} (sc : cube) : cube := tnth [tuple of S2] sc.
 Definition S3 := [::  F1; F0; F3; F2; F5; F4].
-Definition S3f  (sc : cube) : cube := tnth [tuple of S3] sc.
+Definition S3f@{}  (sc : cube) : cube := tnth [tuple of S3] sc.
 Definition S4 := [:: F4; F5; F3; F2; F0; F1].
-Definition S4f  (sc : cube) : cube := tnth [tuple of S4] sc.
+Definition S4f@{} (sc : cube) : cube := tnth [tuple of S4] sc.
 Definition S5 := [::  F2; F4; F0; F5; F1; F3].
-Definition S5f  (sc : cube) : cube := tnth [tuple of S5] sc.
+Definition S5f@{} (sc : cube) : cube := tnth [tuple of S5] sc.
 Definition S6 := [::F3; F4; F5; F0; F1; F2].
-Definition S6f  (sc : cube) : cube := tnth [tuple of S6] sc.
+Definition S6f@{} (sc : cube) : cube := tnth [tuple of S6] sc.
 
 Lemma S1_inv : involutive S1f.
 Proof. by move=> z; apply/eqP; case: z; do 6?case. Qed.
@@ -615,9 +615,9 @@ apply: (@perm _ S14f); apply: can_inj S14f _ => z.
 by apply/eqP; case: z; do 6?case.
 Defined.
 
-Definition s23 := (perm (inv_inj S23_inv)).
-Definition r05 := (perm R05_inj).
-Definition r14 := (perm R14_inj).
+Definition s23@{} := (perm (inv_inj S23_inv)).
+Definition r05@{} := (perm R05_inj).
+Definition r14@{} := (perm R14_inj).
 Definition r23 := (perm R23_inj).
 Definition r50 := (perm R50_inj).
 Definition r41 := (perm R41_inj).
@@ -670,7 +670,7 @@ move=> p; rewrite inE.
 by do ?case/orP; move/eqP=> <- a; rewrite !(permM, permE); case: a; do 6?case.
 Qed.
 
-Definition sop (p : {perm cube}) : seq cube := fgraph (val p).
+Definition sop@{} (p : {perm cube}) : seq cube := fgraph (val p).
 
 Lemma sop_inj : injective sop.
 Proof. by move=> p1 p2 /val_inj/(can_inj fgraphK)/val_inj. Qed.

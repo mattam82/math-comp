@@ -300,7 +300,7 @@ by rewrite -defH [f @* H]maxM // -(morphpreK dM) morphimS.
 Qed.
 
 Lemma morphpre_maximal_eq : maximal_eq (f @*^-1 M) (f @*^-1 G) = maximal_eq M G.
-Proof. by rewrite /maximal_eq morphpre_maximal !eqEsubset !morphpreSK. Qed.
+Proof. by rewrite !{1}/maximal_eq morphpre_maximal !eqEsubset !morphpreSK. Qed.
 
 End MorphPreMax.
 

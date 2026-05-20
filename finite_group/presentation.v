@@ -202,7 +202,7 @@ have evalG e t: all [in G] e -> eval (map h e) t = h (eval e t).
   move=> Ge; apply: (@proj2 (eval e t \in G)); elim: t => /=.
   - move=> i; case: (leqP (size e) i) => [le_e_i | lt_i_e].
       by rewrite !nth_default ?size_map ?morph1.
-    by rewrite (nth_map 1) // [_ \in G](allP Ge) ?mem_nth.
+   by rewrite (nth_map 1) // (allP Ge) ?mem_nth.
   - by rewrite morph1.
   - by move=> t [Gt ->]; rewrite groupV morphV.
   - by move=> t [Gt ->] n; rewrite groupX ?morphX.

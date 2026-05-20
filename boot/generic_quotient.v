@@ -183,11 +183,11 @@ Arguments repr {T qT} x.
 (************************)
 
 Section QuotTypeTheory.
+Universes u v.
+Variable T : Type@{u}.
+Variable qT : quotType@{u v} T.
 
-Variable T : Type.
-Variable qT : quotType T.
-
-Lemma reprK : cancel repr \pi_qT.
+Lemma reprK : cancel repr (@pi@{u v} _ qT).
 Proof. by move=> x; rewrite !unlock repr_ofK. Qed.
 
 Variant pi_spec (x : T) : T -> Type :=

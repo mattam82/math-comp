@@ -757,7 +757,7 @@ Lemma big_rec3 I r (P : pred I) F1 F2 F3
   K (\big[op1/id1]_(i <- r | P i) F1 i)
     (\big[op2/id2]_(i <- r | P i) F2 i)
     (\big[op3/id3]_(i <- r | P i) F3 i).
-Proof. by rewrite unlock; elim: r => //= i r; case: ifP => //; apply: K_F. Qed.
+Proof. by rewrite !{1}unlock; elim: r => //= i r; case: ifP => //; apply: K_F. Qed.
 
 Hypothesis Kop : forall x1 x2 x3 y1 y2 y3,
   K x1 x2 x3 -> K y1 y2 y3-> K (op1 x1 y1) (op2 x2 y2) (op3 x3 y3).
@@ -785,7 +785,7 @@ Lemma big_rec2 I r (P : pred I) F1 F2
     (K_F : forall i y1 y2, P i -> K y1 y2 ->
        K (op1 (F1 i) y1) (op2 (F2 i) y2)) :
   K (\big[op1/id1]_(i <- r | P i) F1 i) (\big[op2/id2]_(i <- r | P i) F2 i).
-Proof. by rewrite unlock; elim: r => //= i r; case: ifP => //; apply: K_F. Qed.
+Proof. by rewrite !{1}unlock; elim: r => //= i r; case: ifP => //; apply: K_F. Qed.
 
 Hypothesis Kop : forall x1 x2 y1 y2,
   K x1 x2 -> K y1 y2 -> K (op1 x1 y1) (op2 x2 y2).
@@ -796,7 +796,7 @@ Proof. by apply: big_rec2 => i x1 x2 /K_F; apply: Kop. Qed.
 Hypotheses (f_op : {morph f : x y / op2 x y >-> op1 x y}) (f_id : f id2 = id1).
 Lemma big_morph I r (P : pred I) F :
   f (\big[op2/id2]_(i <- r | P i) F i) = \big[op1/id1]_(i <- r | P i) f (F i).
-Proof. by rewrite unlock; elim: r => //= i r <-; rewrite -f_op -fun_if. Qed.
+Proof. by rewrite !{1}unlock; elim: r => //= i r <-; rewrite -f_op -fun_if. Qed.
 
 End Elim2.
 
@@ -1017,7 +1017,7 @@ Qed.
 Lemma big_map J (h : J -> I) r (P : pred I) F :
   \big[op/idx]_(i <- map h r | P i) F i
      = \big[op/idx]_(j <- r | P (h j)) F (h j).
-Proof. by rewrite unlock; elim: r => //= j r ->. Qed.
+Proof. by rewrite !{1}unlock; elim: r => //= j r ->. Qed.
 
 Lemma big_nth x0 r (P : pred I) F :
   \big[op/idx]_(i <- r | P i) F i

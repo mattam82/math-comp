@@ -863,10 +863,11 @@ Notation "''O_' pi ( G )" := (pcore pi G)
 Notation "''O_' pi ( G )" := (pcore_group pi G) : Group_scope.
 
 Section PseriesDefs.
+Universe u.
+Variables (pis : seq nat_pred) (gT : finGroupType@{u}) (A : {set gT}).
 
-Variables (pis : seq nat_pred) (gT : finGroupType) (A : {set gT}).
-
-Definition pcore_mod pi B := coset B @*^-1 'O_pi(A / B).
+Definition pcore_mod pi B := coset@{u} B @*^-1 'O_pi(A / B).
+ 
 Canonical pcore_mod_group pi B : {group gT} :=
   Eval hnf in [group of pcore_mod pi B].
 

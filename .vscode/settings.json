@@ -23,5 +23,7 @@
         "htmldoc/depend": true,
         "htmldoc/depend.js": true,
         "htmldoc/*.css": true
-    }
+    },
+    "vsrocq.path": "../../_build/install/default/bin/vsrocqtop",
+    "vsrocq.args": []
 }

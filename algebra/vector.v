@@ -1509,7 +1509,7 @@ Variables (K : fieldType) (aT rT : vectType K).
 Implicit Types (f g : 'Hom(aT, rT)) (U V : {vspace aT}) (W : {vspace rT}).
 
 Lemma limgS f U V : (U <= V)%VS -> (f @: U <= f @: V)%VS.
-Proof. by rewrite unlock /subsetv !genmxE; apply: submxMr. Qed.
+Proof. by rewrite unlock !{1}/subsetv !genmxE; apply: submxMr. Qed.
 
 Lemma limg_line f v : (f @: <[v]> = <[f v]>)%VS.
 Proof.
@@ -1588,7 +1588,7 @@ Qed.
 
 Lemma inv_lfun_def f : (f \o f^-1 \o f)%VF = f.
 Proof.
-apply/lfunP=> u; do !rewrite lfunE /=; rewrite unlock /= !r2vK.
+apply/lfunP=> u; do !rewrite lfunE /=; rewrite !{1}unlock /= !r2vK.
 by rewrite mulmxKpV ?submxMl.
 Qed.
 
@@ -1618,7 +1618,7 @@ Qed.
 
 Lemma limg_ker_dim f U : (\dim (U :&: lker f) + \dim (f @: U) = \dim U)%N.
 Proof.
-rewrite unlock /dimv /= genmx_cap genmx_id -genmx_cap !genmxE.
+rewrite !{1}unlock !{1}/dimv /= genmx_cap genmx_id -genmx_cap !genmxE.
 by rewrite addnC mxrank_mul_ker.
 Qed.
 
@@ -1935,7 +1935,7 @@ Section Sumv_Pi.
 
 Variables (I : eqType) (r0 : seq I) (P : pred I) (Vs : I -> {vspace vT}).
 
-Let sumv_pi_rec i :=
+Let sumv_pi_rec i : list I -> hom vT vT :=
   fix loop r := if r is j :: r1 then
     let V1 := (\sum_(k <- r1) Vs k)%VS in
     if j == i then addv_pi1 (Vs j) V1 else (loop r1 \o addv_pi2 (Vs j) V1)%VF
