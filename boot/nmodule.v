@@ -172,6 +172,7 @@ HB.mixin Record hasAdd V := {
 
 #[short(type="baseAddMagmaType")]
 HB.structure Definition BaseAddMagma := {V of hasAdd V}.
+Cumulativity Transparent add.
 
 Module BaseAddMagmaExports.
 Bind Scope ring_scope with BaseAddMagma.sort.

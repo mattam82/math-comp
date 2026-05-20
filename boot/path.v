@@ -1665,11 +1665,12 @@ Lemma prev_rotr : prev (rotr n0 p) =1 prev p. Proof. exact: prev_rot. Qed.
 End UniqRotrCycle.
 
 Section UniqCycleRev.
-
-Variable T : eqType.
+Universe u.
+Variable T : eqType@{u}.
 Implicit Type p : seq T.
 
-Lemma prev_rev p : uniq p -> prev (rev p) =1 next p.
+(* Bug in section variance computation? *)
+Lemma prev_rev p : uniq@{u} p -> prev (rev p) =1 next p.
 Proof.
 move=> Up x; case p_x: (x \in p); last first.
   by rewrite next_nth prev_nth mem_rev p_x.

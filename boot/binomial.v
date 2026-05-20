@@ -530,9 +530,9 @@ Lemma card_partial_ord_partitions m n :
 Proof.
 symmetry; set In1 := 'I_n.+1; pose x0 : In1 := ord0.
 pose add_mn (i j : In1) : In1 := inord (i + j).
-pose f_add (t : m.-tuple In1) := [tuple of scanl add_mn x0 t].
+pose f_add (t : m.-tuple In1) := [tuple of scanl@{0 0} add_mn x0 t].
 rewrite -card_sorted_tuples -!sum1dep_card (reindex f_add) /=; last first.
-  apply: eq_bigl => t; rewrite -[\sum_(i <- t) i]add0n.
+  apply: eq_bigl => t; rewrite -[\sum_(i <- tval@{0} t) i]add0n.
   transitivity (path leq x0 (map val (f_add t))) => /=; first by case: map.
   rewrite -{1 2}[0]/(val x0); elim: {t}(val t) (x0) => /= [|x t IHt] s.
     by rewrite big_nil addn0 -ltnS ltn_ord.

@@ -145,6 +145,13 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 Unset Printing Implicit Defensive.
 
+Cumulativity Transparent left_id.
+Cumulativity Transparent right_id.
+Cumulativity Transparent involutive.
+Cumulativity Transparent associative.
+Cumulativity Transparent left_inverse.
+Cumulativity Transparent right_inverse.
+
 Reserved Notation "*%g" (at level 0).
 Reserved Notation "\1" (at level 0).
 Reserved Notation "f \* g" (at level 40, left associativity).
@@ -450,6 +457,7 @@ HB.mixin Record hasInv G := {
 
 #[short(type="baseGroupType")]
 HB.structure Definition BaseGroup := {G of hasInv G & BaseUMagma G}.
+Cumulativity Transparent inv.
 
 Bind Scope group_scope with BaseGroup.sort.
 
@@ -474,7 +482,7 @@ Definition group_closed := 1 \in S /\ divg_closed.
 
 End ClosedPredicates.
 
-HB.mixin Record Monoid_isStarMonoid G & BaseGroup G := {
+HB.mixin Record Monoid_isStarMonoid (G : Type) & BaseGroup G := {
   invgK : involutive (@inv G);
   invgM : {morph @inv G : x y / x * y >-> y * x}
 }.

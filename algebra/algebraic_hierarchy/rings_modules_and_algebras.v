@@ -580,6 +580,11 @@ Export Algebra.
 
 Import Monoid.Theory.
 
+Cumulativity Transparent left_distributive.
+Cumulativity Transparent right_distributive.
+Cumulativity Transparent left_zero.
+Cumulativity Transparent right_zero.
+
 HB.mixin Record Nmodule_isSemiRing R & Nmodule R := {
   one : R;
   mul : R -> R -> R;
@@ -2210,10 +2215,11 @@ Lemma zmod_morphism_linear (R : ringType) (U : lmodType R) V
   (s : Scale.law R V) (f : U -> V) : linear_for s f -> zmod_morphism f.
 Proof. by move=> Lsf x y; rewrite -scaleN1r addrC Lsf Scale.N1op addrC. Qed.
 
-Lemma scalable_linear (R : ringType) (U : lmodType R) V
-  (s : Scale.law R V) (f : U -> V) : linear_for s f -> scalable_for s f.
+Lemma scalable_linear@{ur ul us uv} (R : ringType@{ur}) (U : lmodType@{ul ur} R) V
+  (s : Scale.law@{ur us uv} R V) (f : U -> V) : linear_for s f -> scalable_for s f.
 Proof.
-by move=> Lsf a v; rewrite -[a *:v](addrK v) (zmod_morphism_linear Lsf) Lsf addrK.
+move=> Lsf a v.
+by rewrite -[a *:v](addrK v) (zmod_morphism_linear Lsf) Lsf addrK.
 Qed.
 
 Lemma semilinear_linear (R : ringType) (U : lmodType R) V

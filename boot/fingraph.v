@@ -1000,7 +1000,7 @@ case=> Aee' Ae'e.
 have inj_h: {in predI (roots e') [preim h of a] &, injective (root e \o h)}.
   move=> x' y' /andP[/eqP r_x' /= a_x'] /andP[/eqP r_y' _] /(rootP sym_e).
   by rewrite -Ae'e // => /(rootP sym_e'); rewrite r_x' r_y'.
-rewrite /n_comp_mem -(card_in_image inj_h); apply: eq_card => x.
+rewrite !/n_comp_mem -(card_in_image inj_h). apply: eq_card => x.
 apply/andP/imageP=> [[/eqP rx a_x] | [x' /andP[/eqP r_x' a_x'] ->]]; last first.
   by rewrite /= -(ccl_a (connect_root _ _)) roots_root.
 have [y' e_xy]:= Aee' x a_x; pose x' := root e' y'.

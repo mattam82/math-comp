@@ -908,7 +908,7 @@ Qed.
 Lemma morphim_coprime_sdprod :
   K ><| H = G -> coprime #|K| #|H| -> f @* K ><| f @* H = f @* G.
 Proof.
-rewrite /sdprod => defG coHK; move: defG.
+rewrite !{1}/sdprod => defG coHK; move: defG.
 by rewrite !coprime_TIg ?coprime_morph // !subxx; apply: morphim_pprod.
 Qed.
 
@@ -933,7 +933,7 @@ Qed.
 Lemma morphim_coprime_dprod :
   K \x H = G -> coprime #|K| #|H| -> f @* K \x f @* H = f @* G.
 Proof.
-rewrite /dprod => defG coHK; move: defG.
+rewrite !{1}/dprod => defG coHK; move: defG.
 by rewrite !coprime_TIg ?coprime_morph // !subxx; apply: morphim_cprod.
 Qed.
 
@@ -1027,12 +1027,12 @@ Definition pairg1 x : gT1 * gT2 := (x, 1).
 Definition pair1g x : gT1 * gT2 := (1, x).
 
 Lemma pairg1_morphM : {morph pairg1 : x y / x * y}.
-Proof. by move=> x y /=; rewrite {2}/mul /= /mul_pair/= mul1g. Qed.
+Proof. by move=> x y /=; rewrite [pairg1 x * _]/mul /= !/mul_pair/= mul1g. Qed.
 
 Canonical pairg1_morphism := @Morphism _ _ setT _ (in2W pairg1_morphM).
 
 Lemma pair1g_morphM : {morph pair1g : x y / x * y}.
-Proof. by move=> x y /=; rewrite {2}/mul /= /mul_pair/= mul1g. Qed.
+Proof. by move=> x y /=; rewrite [pair1g x * _]/mul /= /mul_pair/= mul1g. Qed.
 
 Canonical pair1g_morphism := @Morphism _ _ setT _ (in2W pair1g_morphM).
 
@@ -1693,7 +1693,7 @@ Proof. by case/cprodP: eqHK_G => _ <- cHK; rewrite cent_joinEr. Qed.
 Lemma cprodm_actf : {in H & K, morph_act 'J 'J fH fK}.
 Proof.
 case/cprodP: eqHK_G => _ _ cHK a b Ha Kb /=.
-by rewrite /conjg -(centsP cHK b) // -(centsP cfHK (fK b)) ?mulKg ?mem_morphim.
+by rewrite !{1}/conjg -(centsP cHK b) // -(centsP cfHK (fK b)) ?mulKg ?mem_morphim.
 Qed.
 
 Definition cprodm := restrm cprodm_sub (pprodm cprodm_norm cprodm_actf eqfHK).

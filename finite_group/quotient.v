@@ -27,8 +27,9 @@ Unset Printing Implicit Defensive.
 Local Open Scope group_scope.
 
 Section Cosets.
+Universe g.
 
-Variables (gT : finGroupType) (Q A : {set gT}).
+Variables (gT : finGroupType@{g}) (Q A : {set gT}).
 
 (******************************************************************************)
 (* Cosets are right cosets of elements in the normaliser.                     *)
@@ -108,7 +109,7 @@ HB.instance Definition _ :=
 
 (* Projection of the initial group type over the cosets groupType.  *)
 
-Definition coset x : coset_of := insubd (1 : coset_of) (H :* x).
+Definition coset x : coset_of := insubd@{g g} (1 : coset_of) (H :* x).
 
 (* This is a primitive lemma -- we'll need to restate it for *)
 (* the case where A is a group. *)
@@ -671,7 +672,7 @@ by rewrite (setIidPl nfHfG) morphpreIim -morphpreMl ?sub1G ?mul1g.
 Qed.
 
 Lemma ker_quotm : 'ker quotm = 'ker f / H.
-Proof. by rewrite -morphpre_quotm /quotient morphim1. Qed.
+Proof. by rewrite -morphpre_quotm !{1}/quotient morphim1. Qed.
 
 Lemma injm_quotm : 'injm f -> 'injm quotm.
 Proof. by move/trivgP=> /= kf1; rewrite ker_quotm kf1 quotientE morphim1. Qed.
