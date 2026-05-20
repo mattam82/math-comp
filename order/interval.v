@@ -517,7 +517,7 @@ Qed.
 Lemma bound_leEmeet b1 b2 : (b1 <= b2) = (bound_meet b1 b2 == b1).
 Proof.
 case: b1 b2 => [[]t[][]|[][][]] //=; rewrite ?eqxx// => t';
-  rewrite [LHS]/<=%O /eq_op ?andbT ?andbF ?orbF/= /eq_op/= /eq_op/=;
+  rewrite [LHS]/<=%O !{1}/eq_op ?andbT ?andbF ?orbF/= !{1}/eq_op/= !{1}/eq_op/=;
   case: lcomparableP => //=; rewrite ?eqxx//=; [| | |].
 - by move/lt_eqF.
 - move=> ic; apply: esym; apply: contraNF ic.

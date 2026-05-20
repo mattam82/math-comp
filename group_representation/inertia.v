@@ -693,7 +693,7 @@ Lemma inertia_isom phi : 'I_R[cfIsom isoH phi] = g @* 'I_G[phi].
 Proof.
 have [[_ defS] [injg <-]] := (isomP isoH, isomP isoG).
 rewrite morphimEdom (eq_in_imset eq_hg) -morphimEsub // in defS.
-rewrite /inertia !setIdE morphimIdom setIA -{1}defS -injm_norm ?injmI //.
+rewrite !/inertia !setIdE morphimIdom setIA -{1}defS -injm_norm ?injmI //.
 apply/setP=> gy /[!inE]; apply: andb_id2l => /morphimP[y Gy nHy ->] {gy}.
 rewrite cfConjgIsom // -sub1set -morphim_set1 // injmSK ?sub1set //= inE.
 apply/eqP/eqP=> [Iphi_y | -> //].

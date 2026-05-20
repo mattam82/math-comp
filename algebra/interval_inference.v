@@ -1211,7 +1211,7 @@ Canonical natmul_inum (xi ni : Itv.t) (x : num_def R xi) (n : nat_def ni) :=
 Lemma num_spec_int (i : Itv.t) (n : int) :
   num_spec i n = num_spec i (n%:~R : R).
 Proof.
-case: i => [//| [l u]]; rewrite /= /Itv.num_sem num_real realz/=.
+case: i => [//| [l u]]; rewrite /= !{1}/Itv.num_sem num_real realz/=.
 congr (andb _ _).
 - by case: l => [[] l |//]; rewrite !bnd_simp intz ?ler_int ?ltr_int.
 - by case: u => [[] u |//]; rewrite !bnd_simp intz ?ler_int ?ltr_int.

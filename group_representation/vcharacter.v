@@ -339,7 +339,7 @@ Lemma orthogonal_span S phi :
     pairwise_orthogonal S -> phi \in <<S>>%VS ->
   {z | z = fun xi => '[phi, xi] / '[xi] & phi = \sum_(xi <- S) z xi *: xi}.
 Proof.
-move=> oSS /free_span[|c -> _]; first exact: orthogonal_free.
+move=> oSS /(free_span (v := phi))[|c -> _]; first exact: orthogonal_free.
 set z := fun _ => _ : algC; exists z => //; apply: eq_big_seq => u Su.
 rewrite /z cfproj_sum_orthogonal // mulfK // cfnorm_eq0.
 by rewrite (memPn _ u Su); case/andP: oSS.

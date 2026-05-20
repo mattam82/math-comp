@@ -1617,7 +1617,9 @@ Lemma cfIsom_cfun1 : cfIsom 1 = 1. Proof. exact: rmorph1. Qed.
 
 Lemma cfker_isom phi : cfker (cfIsom phi) = f @* cfker phi.
 Proof.
-rewrite unlock cfker_morph // defG cfRes_id morphpre_restrm morphpre_invm.
+rewrite unlock. simpl.
+set phi' := 'Res[_] _.
+rewrite (cfker_morph _ phi') // /phi' defG cfRes_id morphpre_restrm morphpre_invm.
 by rewrite -defR !morphimIim.
 Qed.
 

@@ -328,7 +328,7 @@ Qed.
 Lemma morphim_class x A :
   x \in D -> A \subset D -> f @* (x ^: A) = f x ^: f @* A.
 Proof.
-move=> Dx sAD; rewrite !morphimEsub ?class_subG // /class -!imset_comp.
+move=> Dx sAD; rewrite !morphimEsub ?class_subG // !{1}/class -!imset_comp.
 by apply: eq_in_imset => y Ay /=; rewrite morphJ // (subsetP sAD).
 Qed.
 

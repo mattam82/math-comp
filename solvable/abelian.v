@@ -2034,7 +2034,7 @@ suffices{G} nth_abty gT (G : {group gT}) i:
     abelian G -> i < size (abelian_type G) ->
   nth 1%N (abelian_type G) i = (\prod_(p < #|G|.+1) p ^ lni i p _ G)%N.
 - move=> isoGH; case cGG: (abelian G); last first.
-    rewrite /abelian_type -(prednK (cardG_gt0 G)) -(prednK (cardG_gt0 H)) /=.
+    rewrite !{1}/abelian_type -(prednK (cardG_gt0 G)) -(prednK (cardG_gt0 H)) /=.
     by rewrite {1}(genGid G) {1}(genGid H) -(isog_abelian isoGH) cGG.
   have cHH: abelian H by rewrite -(isog_abelian isoGH).
   have eq_sz: size (abelian_type G) = size (abelian_type H).

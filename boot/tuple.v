@@ -335,11 +335,11 @@ Arguments all_tnthP {n T a t}.
 Arguments has_tnthP {n T a t}.
 
 Section EqTuple.
-
 Variables (n : nat) (T : eqType).
 
 HB.instance Definition _ : hasDecEq (n.-tuple T) :=
   [Equality of n.-tuple T by <:].
+
 Canonical tuple_predType := PredType (pred_of_seq : n.-tuple T -> pred T).
 
 Lemma eqEtuple (t1 t2 : n.-tuple T) :
@@ -382,23 +382,27 @@ HB.instance Definition _ n (T : choiceType) :=
   [Choice of n.-tuple T by <:].
 HB.instance Definition _ n (T : countType) :=
   [Countable of n.-tuple T by <:].
+Set Printing Universes.
 
 Module Type FinTupleSig.
 Section FinTupleSig.
-Variables (n : nat) (T : finType).
+Universe u.
+Variables (n : nat) (T : finType@{u}).
 Parameter enum : seq (n.-tuple T).
-Axiom enumP : Finite.axiom enum.
+Axiom enumP : @finite_axiom@{u} 
+(tuple_tuple_of__canonical__eqtype_Equality@{u} n (fintype_Finite__to__eqtype_Equality@{u} T))
+  enum.
 Axiom size_enum : size enum = #|T| ^ n.
 End FinTupleSig.
 End FinTupleSig.
 
 Module FinTuple : FinTupleSig.
 Section FinTuple.
-Variables (n : nat) (T : finType).
-
+Universe u.
+Variables (n : nat) (T : finType@{u}).
 Definition enum : seq (n.-tuple T) :=
   let extend e := flatten (codom (fun x => map (cons x) e)) in
-  pmap insub (iter n extend [::[::]]).
+  pmap insub@{u u} (iter n extend [::[::]]).
 
 Lemma enumP : Finite.axiom enum.
 Proof.

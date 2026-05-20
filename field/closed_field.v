@@ -715,7 +715,9 @@ pose Einv (z : E) (q := repr z) (dq := d (pickle q).+1) :=
 have Einv0 : Einv 0 = 0.
   rewrite /Einv; case: Bezout_eq1_coprimepP => // ex_uv.
   case/negP: (oner_neq0 E); rewrite [X in X == _]piE.
-  rewrite /= -[_ 1]/(PtoE 1); have [uv <-] := ex_uv.
+  set ptoe := PtoE 1; subst ptoe.
+  (* rewrite /= -[_ 1]/(PtoE 1). *)
+  have [uv <-] := ex_uv.
   by rewrite rmorphD !rmorphM [X in _ + _ * X]PtoEd /= reprK !mulr0 addr0.
 have EmulV : forall x, x != 0 -> Einv x * x = 1.
   rewrite /Einv=> z nz_z; case: Bezout_eq1_coprimepP => [ex_uv |]; last first.
@@ -927,3 +929,8 @@ apply: integral_root (ext1root _ _) _.
   by rewrite map_poly_eq0 -size_poly_gt0 ltnW ?minXp_gt1.
 by apply/integral_poly=> i; rewrite coef_map; apply: integral_rmorph.
 Qed.
+
+Set Printing Universes.
+Set Printing All.  About countable_algebraic_closure.
+Print Poly.
+About polyC.

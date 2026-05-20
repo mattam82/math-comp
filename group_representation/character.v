@@ -1849,7 +1849,9 @@ Implicit Type chi : 'CF(G).
 Lemma cfIsom_char chi :
   (cfIsom isoGR chi \is a character) = (chi \is a character).
 Proof.
-rewrite [cfIsom _]locked_withE cfMorph_charE //.
+rewrite [cfIsom _]locked_withE //=.
+set (phi' := 'Res[_] _).
+rewrite (cfMorph_charE phi') // /phi'.
 by rewrite (isom_im (isom_sym _)) cfRes_id.
 Qed.
 

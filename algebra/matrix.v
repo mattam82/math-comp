@@ -3986,7 +3986,7 @@ Qed.
 
 Lemma map_mx_is_scalar n (A : 'M_n) : is_scalar_mx A^f = is_scalar_mx A.
 Proof.
-rewrite /is_scalar_mx; case: (insub _) => // i.
+rewrite !{1}/is_scalar_mx; case: (insub _) => // i.
 by rewrite mxE -map_scalar_mx inj_eq //; apply: map_mx_inj.
 Qed.
 
@@ -3999,7 +3999,7 @@ Proof. exact: map_unitmx. Qed.
 
 Lemma map_invmx n (A : 'M_n) : (invmx A)^f = invmx A^f.
 Proof.
-rewrite /invmx map_unitmx (fun_if (map_mx f)).
+rewrite !{1}/invmx map_unitmx (fun_if (map_mx f)).
 by rewrite map_mxZ map_mx_adj det_map_mx fmorphV.
 Qed.
 

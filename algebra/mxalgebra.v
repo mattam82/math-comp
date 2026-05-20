@@ -3027,22 +3027,22 @@ Lemma row_full_map m n (A : 'M_(m, n)) : row_full A^f = row_full A.
 Proof. by rewrite /row_full mxrank_map. Qed.
 
 Lemma map_row_ebase m n (A : 'M_(m, n)) : (row_ebase A)^f = row_ebase A^f.
-Proof. by rewrite {2}/row_ebase unlock Gaussian_elimination_map. Qed.
+Proof. by rewrite [row_ebase (map_mx _ _)]/row_ebase unlock Gaussian_elimination_map. Qed.
 
 Lemma map_col_ebase m n (A : 'M_(m, n)) : (col_ebase A)^f = col_ebase A^f.
-Proof. by rewrite {2}/col_ebase unlock Gaussian_elimination_map. Qed.
+Proof. by rewrite [col_ebase (map_mx _ _)]/col_ebase unlock Gaussian_elimination_map. Qed.
 
 Lemma map_row_base m n (A : 'M_(m, n)) :
   (row_base A)^f = castmx (mxrank_map A, erefl n) (row_base A^f).
 Proof.
-move: (mxrank_map A); rewrite {2}/row_base mxrank_map => eqrr.
+move: (mxrank_map A); rewrite [row_base (map_mx _ _)]/row_base mxrank_map => eqrr.
 by rewrite castmx_id map_mxM map_pid_mx map_row_ebase.
 Qed.
 
 Lemma map_col_base m n (A : 'M_(m, n)) :
   (col_base A)^f = castmx (erefl m, mxrank_map A) (col_base A^f).
 Proof.
-move: (mxrank_map A); rewrite {2}/col_base mxrank_map => eqrr.
+move: (mxrank_map A); rewrite [col_base (map_mx _ _)]/col_base mxrank_map => eqrr.
 by rewrite castmx_id map_mxM map_pid_mx map_col_ebase.
 Qed.
 
@@ -3118,7 +3118,7 @@ Proof. by rewrite -map_mxvec map_submx. Qed.
 Lemma map_mulsmx m1 m2 n (E1 : 'A_(m1, n)) (E2 : 'A_(m2, n)) :
   ((E1 * E2)%MS^f :=: E1^f * E2^f)%MS.
 Proof.
-rewrite /mulsmx; elim/big_rec2: _ => [|i A Af _ eqA]; first by rewrite map_mx0.
+rewrite !{1}/mulsmx; elim/big_rec2: _ => [|i A Af _ eqA]; first by rewrite map_mx0.
 apply: (eqmx_trans (map_addsmx _ _)); apply: adds_eqmx {A Af}eqA.
 apply/eqmxP; rewrite !map_genmx !genmxE map_mxM.
 apply/rV_eqP=> u; congr (u <= _ *m _)%MS.
@@ -3132,7 +3132,7 @@ by congr (_ *m _); apply: map_lin_mx => B; rewrite map_mxB ?map_mxM.
 Qed.
 
 Lemma map_center_mx m n (E : 'A_(m, n)) : (('Z(E))^f :=: 'Z(E^f))%MS.
-Proof. by rewrite /center_mx -map_cent_mx; apply: map_capmx. Qed.
+Proof. by rewrite !{1}/center_mx -map_cent_mx; apply: map_capmx. Qed.
 
 End MapMatrixSpaces.
 

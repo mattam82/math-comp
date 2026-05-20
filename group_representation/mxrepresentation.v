@@ -2660,7 +2660,7 @@ Proof. exact: rfix_morphpre. Qed.
 
 Lemma mxsimple_morphim M : mxsimple rG M <-> mxsimple rGf M.
 Proof.
-rewrite /mxsimple mxmodule_morphim.
+rewrite !{1}/mxsimple mxmodule_morphim.
 split=> [] [-> -> minM]; split=> // U modU;
   by apply: minM; rewrite mxmodule_morphim in modU *.
 Qed.
@@ -5009,7 +5009,7 @@ Lemma mx_irr_map : mx_irreducible rGf -> mx_irreducible rG.
 Proof. by move=> irrGf; apply: mxsimple_map; rewrite map_mx1. Qed.
 
 Lemma rker_map : rker rGf = rker rG.
-Proof. by rewrite /rker -rstab_map map_mx1. Qed.
+Proof. by rewrite !{1}/rker -rstab_map map_mx1. Qed.
 
 Lemma map_mx_faithful : mx_faithful rGf = mx_faithful rG.
 Proof. by rewrite /mx_faithful rker_map. Qed.
@@ -5068,7 +5068,7 @@ Lemma map_regular_subseries U i (modU : mx_subseries (regular_repr aF G) U)
    (modUf : mx_subseries (regular_repr rF G) [seq M^f | M <- U]) :
   mx_rsim (map_repr f (subseries_repr i modU)) (subseries_repr i modUf).
 Proof.
-set mf := map _ in modUf *; rewrite /subseries_repr.
+set mf := map _ in modUf *; rewrite !{1}/subseries_repr.
 do 2!move: (mx_subseries_module' _ _) (mx_subseries_module _ _).
 have mf_i V: nth 0^f (mf V) i = (V`_i)^f.
   case: (ltnP i (size V)) => [ltiV | leVi]; first exact: nth_map.

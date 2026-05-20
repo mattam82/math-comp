@@ -154,15 +154,15 @@ Arguments coefp {R} i%_N / p%_R.
 Notation "{ 'poly' T }" := (polynomial T) : type_scope.
 
 Section SemiPolynomialTheory.
-
-Variable R : nzSemiRingType.
+Universe u.
+Variable R : nzSemiRingType@{u}.
 Implicit Types (a b c x y z : R) (p q r d : {poly R}).
 
 Definition lead_coef p := p`_(size p).-1.
 Lemma lead_coefE p : lead_coef p = p`_(size p).-1. Proof. by []. Qed.
 
 Definition poly_nil := @Polynomial R [::] (oner_neq0 R).
-Definition polyC c : {poly R} := insubd poly_nil [:: c].
+Definition polyC c : {poly R} := insubd@{u u} poly_nil [:: c].
 
 Local Notation "c %:P" := (polyC c).
 
@@ -2071,7 +2071,7 @@ by rewrite map_polyX map_polyC hornerMXaddC IHp.
 Qed.
 
 Lemma map_comm_poly p x : comm_poly p x -> comm_poly p^f (f x).
-Proof. by rewrite /comm_poly horner_map -!rmorphM // => ->. Qed.
+Proof. by rewrite !{1}/comm_poly horner_map -!rmorphM // => ->. Qed.
 
 Lemma map_comm_coef p x : comm_coef p x -> comm_coef p^f (f x).
 Proof. by move=> cpx i; rewrite coef_map -!rmorphM ?cpx. Qed.

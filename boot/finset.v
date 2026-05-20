@@ -2493,7 +2493,7 @@ Qed.
 Lemma imset_partition : partition fP (f @: D) = partition P D.
 Proof.
 suff cov: (cover fP == f @:D) = (cover P == D).
-  by rewrite /partition -imset_trivIset imset0mem cov.
+  by rewrite !{1}/partition -imset_trivIset imset0mem cov.
 by rewrite /fP cover_imset -imset_cover (inj_eq (imset_inj inj_f)).
 Qed.
 End PartitionImage.

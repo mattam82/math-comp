@@ -489,7 +489,7 @@ have gK: cancel (fun f : fT => (f x0, g (y0, f))) g.
 rewrite -(card_image (can_inj gK)); apply: eq_card => [] [y f] /=.
 apply/imageP/andP=> [[f1 /familyP/=Ff1] [-> ->]| [/=Fx0y /familyP/=Ff]].
   split=> //; apply/familyP=> x; rewrite ffunE /F1 /=.
-  by case: eqP => // Dx; apply: eqxx.
+  case: eqP => // Dx. apply: eqxx.
 exists (g (y, f)).
   by apply/familyP=> x; have:= Ff x; rewrite ffunE /F1; case: eqP; [case: x /|].
 congr (_, _); first by rewrite /= ffunE; case: eqP => // Dx; rewrite eq_axiomK.

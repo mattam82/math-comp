@@ -138,6 +138,8 @@ Unset Printing Implicit Defensive.
 Declare Scope eq_scope.
 Declare Scope fun_delta_scope.
 
+Monomorphic Universe sub.
+
 Definition eq_axiom T (e : rel T) := forall x y, reflect (x = y) (e x y).
 
 HB.mixin Record hasDecEq T := { eq_op : rel T; eqP : eq_axiom eq_op }.
@@ -299,7 +301,7 @@ Proof. by move=> eq_x_x; apply: eq_irrelevance. Qed.
 (* We use the module system to circumvent a silly limitation that  *)
 (* forbids using the same constant to coerce to different targets. *)
 Module Type EqTypePredSig.
-Parameter sort : eqType -> predArgType.
+Parameter sort@{u} : eqType@{u} -> predArgType@{u}.
 End EqTypePredSig.
 Module MakeEqTypePred (eqmod : EqTypePredSig).
 Coercion eqmod.sort : eqType >-> predArgType.
@@ -549,12 +551,13 @@ End ComparableType.
 
 Definition eq_comparable (T : eqType) : comparable T :=
   fun x y => decP (x =P y).
+Definition subP := Type@{sub}.
 
 #[key="sub_sort"]
 HB.mixin Record isSub (T : Type) (P : pred T) (sub_sort : Type) := {
   val_subdef : sub_sort -> T;
   Sub : forall x, P x -> sub_sort;
-  Sub_rect : forall K (_ : forall x Px, K (@Sub x Px)) u, K u;
+  Sub_rect : forall (K : _ -> subP) (_ : forall x Px, K (@Sub x Px)) u, K u;
   SubK_subproof : forall x Px, val_subdef (@Sub x Px) = x
 }.
 
@@ -570,8 +573,8 @@ HB.structure Definition SubEquality T (P : pred T) :=
   { sT of Equality sT & isSub T P sT}.
 
 Section SubType.
-
-Variables (T : Type) (P : pred T).
+Universe i.
+Variables (T : Type@{i}) (P : pred T).
 
 (* Generic proof that the second property holds by conversion.                *)
 (* The vrefl_rect alias is used to flag generic proofs of the first property. *)
@@ -597,7 +600,7 @@ Definition insub x := if idP is ReflectT Px then Some (Sub x Px) else None.
 
 Definition insubd u0 x := odflt u0 (insub x).
 
-Variant insub_spec x : option sT -> Type :=
+Variant insub_spec x : option sT -> Type@{i} :=
   | InsubSome u of P x & val u = x : insub_spec x (Some u)
   | InsubNone   of ~~ P x          : insub_spec x None.
 

@@ -267,9 +267,9 @@ Module Algebraics.
 
 Module Type Specification.
 
-Parameter type : Type.
+Parameter type@{} : Type@{0}.
 
-Parameter conjMixin : Num.ClosedField type.
+Parameter conjMixin : Num.ClosedField@{0 0} type.
 
 Parameter isCountable : Countable type.
 
@@ -314,7 +314,7 @@ Fact eq_root_is_equiv : equiv_class_of eq_root.
 Proof. by rewrite /eq_root; split=> [ ? | ? ? | ? ? ? ] // /eqP->. Qed.
 Canonical eq_root_equiv := EquivRelPack eq_root_is_equiv.
 
-Definition type : Type := {eq_quot eq_root}%qT.
+Definition type@{} : Type@{0} := {eq_quot eq_root}%qT.
 
 HB.instance Definition _ : EqQuotient _ eq_root type := EqQuotient.on type.
 HB.instance Definition _ := Choice.on type.

@@ -507,7 +507,7 @@ by rewrite leq_eqVlt ltnS => /predU1P[<- // | /IHn]; right.
 Qed.
 Arguments leP {m n}.
 
-Lemma le_irrelevance m n le_mn1 le_mn2 : le_mn1 = le_mn2 :> (m <= n)%coq_nat.
+Lemma le_irrelevance@{} m n le_mn1 le_mn2 : le_mn1 = le_mn2 :> (m <= n)%coq_nat.
 Proof.
 elim/ltn_ind: n => n IHn in le_mn1 le_mn2 *; set n1 := n in le_mn1 *.
 pose def_n : n = n1 := erefl n; transitivity (eq_ind _ _ le_mn2 _ def_n) => //.

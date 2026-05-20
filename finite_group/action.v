@@ -2281,7 +2281,7 @@ Canonical comp_groupAction := GroupAction comp_is_groupAction.
 
 Lemma gacent_comp U : 'C_(|comp_groupAction)(U) = 'C_(|to)(f @* U).
 Proof.
-rewrite /gacent afix_comp ?subIset ?subxx //.
+rewrite !{1}/gacent afix_comp ?subIset ?subxx //.
 by rewrite -(setIC U) (setIC D) morphim_setIpre.
 Qed.
 
