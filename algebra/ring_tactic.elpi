@@ -213,27 +213,27 @@ type rmorphism-int rmorphism. % _%:~R
 
 pred rmorphism->nmod i:rmorphism, o:term.
 rmorphism->nmod (rmorphism U _ _ _ _ _ _) U :- !.
-rmorphism->nmod rmorphism-nat (global (const U)) :- !, mc-canonical-nat-nmodule U.
-rmorphism->nmod rmorphism-int (global (const U)) :- !, mc-canonical-int-nmodule U.
+rmorphism->nmod rmorphism-nat (global (const U) _) :- !, mc-canonical-nat-nmodule U.
+rmorphism->nmod rmorphism-int (global (const U) _) :- !, mc-canonical-int-nmodule U.
 
 pred rmorphism->zmod i:rmorphism, o:term.
 rmorphism->zmod (rmorphism _ (some U) _ _ _ _ _) U :- !.
-rmorphism->zmod rmorphism-int (global (const U)) :- !, mc-canonical-int-zmodule U.
+rmorphism->zmod rmorphism-int (global (const U) _) :- !, mc-canonical-int-zmodule U.
 
 pred rmorphism->sring i:rmorphism, o:term.
 rmorphism->sring (rmorphism _ _ R _ _ _ _) R :- !.
-rmorphism->sring rmorphism-nat (global (const R)) :- !,
+rmorphism->sring rmorphism-nat (global (const R) _) :- !,
   mc-canonical-nat-semiring R.
-rmorphism->sring rmorphism-int (global (const R)) :- !,
+rmorphism->sring rmorphism-int (global (const R) _) :- !,
   mc-canonical-int-semiring R.
 
 pred rmorphism->ring i:rmorphism, o:term.
 rmorphism->ring (rmorphism _ _ _ (some R) _ _ _) R :- !.
-rmorphism->ring rmorphism-int (global (const R)) :- !, mc-canonical-int-ring R.
+rmorphism->ring rmorphism-int (global (const R) _) :- !, mc-canonical-int-ring R.
 
 pred rmorphism->uring i:rmorphism, o:term.
 rmorphism->uring (rmorphism _ _ _ _ (some UR) _ _) UR :- !.
-rmorphism->uring rmorphism-int (global (const R)) :- !,
+rmorphism->uring rmorphism-int (global (const R) _) :- !,
   mc-canonical-int-unitring R.
 
 pred rmorphism->field i:rmorphism, o:term.
@@ -543,13 +543,13 @@ pred ring.rmorphism i:bool, i:term, i:rmorphism, i:term -> term, i:term, i:term,
                     o:term, o:term, o:list term.
 ring.rmorphism Inv S C _ NewMorphInst In1
                {{ @RnatMorph lp:R lp:NewMorphInst lp:OutM1 }} Out1 VM :-
-  coq.unify-eq S (global (const { mc-canonical-nat-semiring })) ok, !,
+  coq.unify-eq S (global (const { mc-canonical-nat-semiring }) _) ok, !,
   rmorphism->sring C R, !,
   ring Inv rmorphism-nat In1 OutM1 Out1 VM.
 ring.rmorphism Inv S C _ NewMorphInst In1
                {{ @RintMorph lp:R lp:NewMorphInst lp:OutM1 }} Out1 VM :-
   target-zmodule _,
-  coq.unify-eq S (global (const { mc-canonical-int-semiring })) ok, !,
+  coq.unify-eq S (global (const { mc-canonical-int-semiring }) _) ok, !,
   rmorphism->sring C R, !,
   ring Inv rmorphism-int In1 OutM1 Out1 VM.
 ring.rmorphism Inv S C NewMorph NewMorphInst In1
@@ -563,7 +563,7 @@ pred ring.additive i:bool, i:term, i:rmorphism, i:term -> term, i:term, i:term,
                    o:term, o:term, o:list term.
 ring.additive Inv V C NewMorph NewMorphInst In1
               {{ @RnatAdditive lp:R lp:NewMorphInst lp:OutM1 }} Out VM :-
-  coq.unify-eq V (global (const { mc-canonical-nat-nmodule })) ok,
+  coq.unify-eq V (global (const { mc-canonical-nat-nmodule }) _) ok,
   rmorphism->sring C R, rmorphism->morph C Morph,
   mem VM { cond-inv Inv (Morph (NewMorph {{ 1%N }})) } N, !,
   ring Inv rmorphism-nat In1 OutM1 Out1 VM, !,
@@ -571,7 +571,7 @@ ring.additive Inv V C NewMorph NewMorphInst In1
 ring.additive Inv V C NewMorph NewMorphInst In1
               {{ @RintAdditive lp:R lp:NewMorphInst lp:OutM1 }} Out VM :-
   target-zmodule _,
-  coq.unify-eq V (global (const { mc-canonical-int-nmodule })) ok,
+  coq.unify-eq V (global (const { mc-canonical-int-nmodule }) _) ok,
   rmorphism->sring C R, rmorphism->morph C Morph,
   mem VM { cond-inv Inv (Morph (NewMorph {{ 1%Z }})) } N, !,
   ring Inv rmorphism-int In1 OutM1 Out1 VM, !,
@@ -648,14 +648,14 @@ pred nmod.additive i:bool, i:term, i:additive, i:term -> term, i:term, i:term,
                    o:term, o:term, o:list term.
 nmod.additive Inv V (additive U _ Morph) NewMorph NewMorphInst In1
               {{ @MnatAdditive lp:U lp:NewMorphInst lp:OutM1 }} Out VM :-
-  coq.unify-eq V (global (const { mc-canonical-nat-nmodule })) ok,
+  coq.unify-eq V (global (const { mc-canonical-nat-nmodule }) _) ok,
   mem VM { cond-inv Inv (Morph (NewMorph {{ 1%N }})) } N, !,
   ring Inv rmorphism-nat In1 OutM1 Out1 VM, !,
   build.mul { build.variable { positive-constant {calc (N + 1)} } } Out1 Out.
 nmod.additive Inv V (additive U _ Morph) NewMorph NewMorphInst In1
               {{ @MintAdditive lp:U lp:NewMorphInst lp:OutM1 }} Out VM :-
   target-zmodule _,
-  coq.unify-eq V (global (const { mc-canonical-int-nmodule })) ok,
+  coq.unify-eq V (global (const { mc-canonical-int-nmodule }) _) ok,
   mem VM { cond-inv Inv (Morph (NewMorph {{ 1%Z }})) } N, !,
   ring Inv rmorphism-int In1 OutM1 Out1 VM, !,
   build.mul { build.variable { positive-constant {calc (N + 1)} } } Out1 Out.
