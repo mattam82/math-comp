@@ -149,6 +149,7 @@ Cumulativity Transparent left_id.
 Cumulativity Transparent right_id.
 Cumulativity Transparent involutive.
 Cumulativity Transparent associative.
+Cumulativity Transparent commutative.
 Cumulativity Transparent left_inverse.
 Cumulativity Transparent right_inverse.
 
