@@ -929,8 +929,3 @@ apply: integral_root (ext1root _ _) _.
   by rewrite map_poly_eq0 -size_poly_gt0 ltnW ?minXp_gt1.
 by apply/integral_poly=> i; rewrite coef_map; apply: integral_rmorph.
 Qed.
-
-Set Printing Universes.
-Set Printing All.  About countable_algebraic_closure.
-Print Poly.
-About polyC.

@@ -892,8 +892,7 @@ Qed.
 
 Implicit Types (V : nmodType) (R : semiRingType) (F : fieldType).
 
-Record RFormula R := { Rlhs : RExpr R; Rop : Op2; Rrhs : RExpr R }.
-
+Record RFormula@{u u0 u1 u2} R := { Rlhs : RExpr@{u u0 u1 u2} R; Rop : Op2; Rrhs : RExpr@{u u0 u1 u2} R }.
 Section Rnorm_formula.
 Variables (R : field_or_ring).
 Variables (R_not_semiring : (if R is SemiRing _ then false else true) = true).
@@ -969,10 +968,8 @@ pose F_of_N b n : Field F :=
 have F_of_NE : F_of_N =2 fun b n => @invi (Field F) b (N.to_nat n)%:R.
   by move=> [] [|[]]; rewrite //= /inv_id/= ?invr0 ?invr1.
 rewrite (Rnorm_bf_correct _ F_of_NE erefl erefl erefl erefl erefl)//.
-admit.
-Admitted.
-(* by move/(_ (R_of_Q F)) => -> /(QTautoCheckerT env). *)
-(* Qed. *)
+by move/(_ (R_of_Q F)) => -> /(QTautoCheckerT env).
+Qed.
 
 Lemma RTautoChecker_sound (R : realDomainType)
     (ff : BFormula (RFormula R) isProp)
@@ -993,9 +990,9 @@ pose R_of_N (b : bool) n : Ring R := R_of_Z R (Z.of_N n).
 have R_of_NE : R_of_N =2 fun b n => @invi (Ring R) b (N.to_nat n)%:R.
   by case=> [] [].
 rewrite (Rnorm_bf_correct _ R_of_NE erefl erefl erefl erefl erefl)//.
-(* by move/(_ (R_of_Z R)) => -> /(ZTautoCheckerT env). *)
-(* Qed. *)
-Admitted.
+by move/(_ (R_of_Z R)) => -> /(ZTautoCheckerT env).
+Qed.
+
 (* Translating formulas and witnesses from Q to Z for the realDomainType case *)
 
 Fixpoint PExpr_Q2Z (e : PExpr Q) : option (PExpr Z) := match e with
