@@ -250,8 +250,8 @@ rewrite -!(size_map_poly FtoL) Dq -DpI (minI B) // -?Dq ?FpxF //.
 by apply/subsetP=> j /[1!inE] /mem_mask; rewrite mem_enum.
 Qed.
 
-Lemma alg_integral (F : fieldType) (L : fieldExtType F) :
-  integralRange (in_alg L).
+Lemma alg_integral@{i} (F : fieldType@{i}) (L : fieldExtType@{i i} F) :
+  integralRange (in_alg@{i i} L).
 Proof.
 move=> x; have [/polyOver1P[p Dp]] := (minPolyOver 1 x, monic_minPoly 1 x).
 by rewrite Dp map_monic; exists p; rewrite // -Dp root_minPoly.
@@ -260,15 +260,16 @@ Prenex Implicits alg_integral.
 
 Arguments map_poly_inj {F R} f [p1 p2].
 
-Theorem Fundamental_Theorem_of_Algebraics :
-  {L : closedFieldType &
+(* Unset Cumulative Inference. *)
+Theorem Fundamental_Theorem_of_Algebraics@{} :
+  {L : closedFieldType@{0} &
      {conj : {rmorphism L -> L} | involutive conj & ~ conj =1 id}}.
 Proof.
 have maxn3 n1 n2 n3: {m | [/\ n1 <= m, n2 <= m & n3 <= m]%N}.
   by exists (maxn n1 (maxn n2 n3)); apply/and3P; rewrite -!geq_max.
 have [C [/= QtoC algC]] := countable_algebraic_closure rat.
 exists C; have [i Di2] := GRing.imaginary_exists C.
-pose Qfield := fieldExtType rat.
+pose Qfield := fieldExtType@{0 0} rat.
 pose Cmorph (L : Qfield) := {rmorphism L -> C}.
 have pcharQ (L : Qfield): [pchar L] =i pred0 := ftrans (pchar_lalg L) (pchar_num _).
 have sepQ  (L : Qfield) (K E : {subfield L}): separable K E.
