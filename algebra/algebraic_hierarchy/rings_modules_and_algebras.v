@@ -2069,7 +2069,7 @@ HB.mixin Record isPreLaw
 
 #[export]
 HB.structure Definition PreLaw R V := {op of isPreLaw R V op}.
-Definition preLaw := PreLaw.type.
+Definition preLaw R V := PreLaw.type R V.
 
 HB.mixin Record isSemiLaw
     (R : semiRingType) (V : nmodType) (op : R -> V -> V) := {
@@ -2081,7 +2081,7 @@ HB.mixin Record isSemiLaw
 #[export]
 HB.structure Definition SemiLaw R V :=
   {op of isPreLaw R V op & isSemiLaw R V op}.
-Definition semiLaw := SemiLaw.type.
+Definition semiLaw R V := SemiLaw.type R V.
 
 HB.mixin Record isLaw (R : ringType) (V : zmodType) (op : R -> V -> V) :=
   { N1op : op (-1) =1 -%R }.
@@ -2089,7 +2089,7 @@ HB.mixin Record isLaw (R : ringType) (V : zmodType) (op : R -> V -> V) :=
 #[export]
 HB.structure Definition Law (R : ringType) (V : zmodType) :=
   {op of isPreLaw R V op & isLaw R V op}.
-Definition law := Law.type.
+Definition law R V := Law.type R V.
 
 Section CompSemiLaw.
 
@@ -2215,8 +2215,8 @@ Lemma zmod_morphism_linear (R : ringType) (U : lmodType R) V
   (s : Scale.law R V) (f : U -> V) : linear_for s f -> zmod_morphism f.
 Proof. by move=> Lsf x y; rewrite -scaleN1r addrC Lsf Scale.N1op addrC. Qed.
 
-Lemma scalable_linear@{ur ul us uv} (R : ringType@{ur}) (U : lmodType@{ul ur} R) V
-  (s : Scale.law@{ur us uv} R V) (f : U -> V) : linear_for s f -> scalable_for s f.
+Lemma scalable_linear@{ur ul uv} (R : ringType@{ur}) (U : lmodType@{ur ul} R) V
+  (s : Scale.law@{ur uv} R V) (f : U -> V) : linear_for s f -> scalable_for s f.
 Proof.
 move=> Lsf a v.
 by rewrite -[a *:v](addrK v) (zmod_morphism_linear Lsf) Lsf addrK.
