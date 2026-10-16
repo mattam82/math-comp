@@ -1176,7 +1176,7 @@ have{mon_p pw0 intRp intRq}: genI S.
 elim: {w p q}S => /= [_|x S IH [[p [mon_p px0 Sp]] /IH{IH}[m2 [X2 defS]]]].
   exists 1, 1 => y; split=> [[a [Fa ->]] | Fy].
     by rewrite tr_scalar_mx mulmx1; apply: Fa.
-  by exists y%:M; split=> [i|]; rewrite 1?ord1 ?tr_scalar_mx ?mulmx1 mxE.
+  by exists y%:M; split=> [i|]; rewrite ?[i]ord1 ?tr_scalar_mx ?mulmx1 mxE. (* FIXME unkeyed rewrite issue?*)
 pose m1 := (size p).-1; pose X1 := \row_(i < m1) x ^+ i.
 have [m [X defM]] := tensorM memR m1 m2 X1 X2; set M := memM _ _ _ in defM.
 exists m, X => y; rewrite -/M; split=> [/defM[a [M2a]] | [q Sq]] -> {y}.
