@@ -98,25 +98,25 @@ Definition object_map := forall gT : finGroupType, {set gT} -> {set gT}.
 Bind Scope gFun_scope with object_map.
 
 Section Definitions.
+Universe u.
+Implicit Types gT hT : finGroupType@{u}.
 
-Implicit Types gT hT : finGroupType.
-
-Variable F : object_map.
+Variable F : object_map@{u}.
 
 (* Group closure. *)
-Definition group_valued := forall gT (G : {group gT}), group_set (F G).
+Definition group_valued := forall (gT : finGroupType@{u}) (G : {group gT}), group_set (F G).
 
 (* Subgroup closure. *)
-Definition closed := forall gT (G : {group gT}), F G \subset G.
+Definition closed := forall (gT : finGroupType@{u}) (G : {group gT}), F G \subset G.
 
 (* General functoriality, i.e., continuity of the object map *)
 Definition continuous :=
-  forall gT hT (G : {group gT}) (phi : {morphism G >-> hT}),
+  forall (gT hT : finGroupType@{u}) (G : {group gT}) (phi : {morphism G >-> hT}),
     phi @* F G \subset F (phi @* G).
 
 (* Functoriality on the Grp groupoid (arrows are restricted to isos). *)
 Definition iso_continuous :=
-  forall gT hT (G : {group gT}) (phi : {morphism G >-> hT}),
+  forall (gT hT : finGroupType@{u}) (G : {group gT}) (phi : {morphism G >-> hT}),
    'injm phi -> phi @* F G \subset F (phi @* G).
 
 Lemma continuous_is_iso_continuous : continuous -> iso_continuous.
@@ -124,7 +124,7 @@ Proof. by move=> Fcont gT hT G phi inj_phi; apply: Fcont. Qed.
 
 (* Functoriality on Grp with partial morphisms. *)
 Definition pcontinuous :=
-  forall gT hT (G D : {group gT}) (phi : {morphism D >-> hT}),
+  forall (gT hT : finGroupType@{u}) (G D : {group gT}) (phi : {morphism D >-> hT}),
     phi @* F G \subset F (phi @* G).
 
 Lemma pcontinuous_is_continuous : pcontinuous -> continuous.
@@ -132,7 +132,7 @@ Proof. by move=> Fcont gT hT G; apply: Fcont. Qed.
 
 (* Heredity with respect to inclusion *)
 Definition hereditary :=
-  forall gT (H G : {group gT}), H \subset G -> F G :&: H \subset F H.
+  forall (gT : finGroupType@{u}) (H G : {group gT}), H \subset G -> F G :&: H \subset F H.
 
 Lemma pcontinuous_is_hereditary : pcontinuous -> hereditary.
 Proof.
@@ -142,11 +142,11 @@ Qed.
 
 (* Monotonicity with respect to inclusion *)
 Definition monotonic :=
-  forall gT (H G : {group gT}), H \subset G -> F H \subset F G.
+  forall (gT : finGroupType@{u}) (H G : {group gT}), H \subset G -> F H \subset F G.
 
 (* Self-expanding composition, and modulo *)
 
-Variables (F1 F2 : object_map).
+Variables (F1 F2 : object_map@{u}).
 
 Definition comp : object_map := fun gT A => F1 (F2 A).
 
