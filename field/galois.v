@@ -250,7 +250,8 @@ move=> Ep; rewrite kHomExtendE (Fadjoin_poly_mod x) //.
 rewrite (divp_eq (map_poly f p) (map_poly f Px)).
 rewrite !hornerE (rootP fPx_y_0) mulr0 add0r.
 have [p1 ->] := polyOver_subvs Ep.
-have [Px1 ->] := polyOver_subvs (minPolyOver E x).
+have [Px1 eq] := polyOver_subvs (minPolyOver E x).
+rewrite !eq.
 by rewrite -map_modp -!map_poly_comp (map_modp (kHom_rmorphism homKf)).
 Qed.
 
