@@ -825,7 +825,6 @@ have nKB: 'N(<<K>>) = B.
   by rewrite -conjXg -def_wb conjgK.
 rewrite -im_quotient card_quotient // nKB -divgS ?subsetT //.
 split; first by rewrite oB defK -orderE ow (mulnA q 2 2) mulnK // mulnC.
-change Presentation.iso with Presentation.iso@{0 0 0 0}.
 apply: intro_isoGrp => [|rT H].
   apply/existsP; exists (coset _ u, coset _ v); rewrite /= !xpair_eqE.
   rewrite -!morphX -?morphJ -?morphV /= ?nKB ?in_setT // uq uv morph1 !eqxx.
