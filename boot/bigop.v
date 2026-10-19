@@ -586,7 +586,7 @@ Definition applybig {R I} (body : bigbody R I) x :=
 Definition reducebig R I idx r (body : I -> bigbody R I) :=
   foldr (applybig \o body) idx r.
 
-HB.lock Definition bigop := reducebig.
+HB.lock Definition bigop R I := @reducebig R I.
 Canonical bigop_unlock := Unlockable bigop.unlock.
 
 Definition index_iota m n := iota m (n - m).
