@@ -892,7 +892,7 @@ Qed.
 
 Implicit Types (V : nmodType) (R : semiRingType) (F : fieldType).
 
-Record RFormula@{u u0 u1 u2} R := { Rlhs : RExpr@{u u0 u1 u2} R; Rop : Op2; Rrhs : RExpr@{u u0 u1 u2} R }.
+Record RFormula R := { Rlhs : RExpr R; Rop : Op2; Rrhs : RExpr R }.
 Section Rnorm_formula.
 Variables (R : field_or_ring).
 Variables (R_not_semiring : (if R is SemiRing _ then false else true) = true).

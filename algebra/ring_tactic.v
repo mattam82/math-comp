@@ -1216,61 +1216,61 @@ by case: n => [n|[d|h]|d|h] /=;
 Qed.
 
 (* Type for reified expressions *)
-Inductive RExpr : semiRingType -> Type :=
+Inductive RExpr@{u} : semiRingType@{u} -> Type :=
   (* 0 *)
-  | R0 R : RExpr R
+  | R0 (R : semiRingType@{u}) : RExpr R
   (* addition: x + y and (n + m)%N *)
-  | RAdd R : RExpr R -> RExpr R -> RExpr R
+  | RAdd (R : semiRingType@{u}) : RExpr R -> RExpr R -> RExpr R
   | RnatAdd : RExpr nat -> RExpr nat -> RExpr nat
   (* natmul: x *+ n, including n%:R = 1 *+ n *)
-  | RMuln R : RExpr R -> RExpr nat -> RExpr R
+  | RMuln (R : semiRingType@{u}) : RExpr R -> RExpr nat -> RExpr R
   (* opposite *)
-  | ROpp (R : ringType) : RExpr R -> RExpr R
+  | ROpp (R : ringType@{u}) : RExpr R -> RExpr R
   (* intmul: x *~ z, including z%:~R = 1 *~ z *)
-  | RMulz (R : ringType) : RExpr R -> RExpr int -> RExpr R
+  | RMulz (R : ringType@{u}) : RExpr R -> RExpr int -> RExpr R
   (* 1 *)
-  | R1 R : RExpr R
+  | R1 (R : semiRingType@{u}) : RExpr R
   (* multiplication: x * y and (x * y)%N *)
-  | RMul R : RExpr R -> RExpr R -> RExpr R
+  | RMul (R : semiRingType@{u}) : RExpr R -> RExpr R -> RExpr R
   | RnatMul : RExpr nat -> RExpr nat -> RExpr nat
   (* exponentiation *)
-  | RExpn R : RExpr R -> large_nat -> RExpr R (* x ^+ n *)
-  | RExpPosz (R : unitRingType) : RExpr R -> large_nat -> RExpr R (* x ^ Posz n *)
-  | RExpNegz F : RExpr F -> large_nat -> RExpr F (* x ^ Negz n *)
+  | RExpn (R : semiRingType@{u}) : RExpr R -> large_nat -> RExpr R (* x ^+ n *)
+  | RExpPosz (R : unitRingType@{u}) : RExpr R -> large_nat -> RExpr R (* x ^ Posz n *)
+  | RExpNegz (F : fieldType@{u}) : RExpr F -> large_nat -> RExpr F (* x ^ Negz n *)
   | RnatExpn : RExpr nat -> large_nat -> RExpr nat (* expn n m *)
   (* multiplicative inverse: x^-1 *)
-  | RInv F : RExpr F -> RExpr F
+  | RInv (F : fieldType@{u}) : RExpr F -> RExpr F
   (* constants *)
   | RnatS : positive -> RExpr nat -> RExpr nat (* S (S ... (S n)...)*)
   | RnatC : large_nat -> RExpr nat (* n *)
   | RPosz : RExpr nat -> RExpr int (* Posz n *)
   | RNegz : RExpr nat -> RExpr int (* Negz n *)
   (* homomorphism applications *)
-  | RMorph R' R : {rmorphism R' -> R} -> RExpr R' -> RExpr R
-  | RnatMorph R : {rmorphism nat -> R} -> RExpr nat -> RExpr R
-  | RintMorph R : {rmorphism int -> R} -> RExpr int -> RExpr R
-  | RAdditive V R : {additive V -> R} -> MExpr V -> RExpr R
-  | RnatAdditive R : {additive nat -> R} -> RExpr nat -> RExpr R
-  | RintAdditive R : {additive int -> R} -> RExpr int -> RExpr R
+  | RMorph (R' R : semiRingType@{u}) : {rmorphism R' -> R} -> RExpr R' -> RExpr R
+  | RnatMorph (R : semiRingType@{u}) : {rmorphism nat -> R} -> RExpr nat -> RExpr R
+  | RintMorph (R : semiRingType@{u}) : {rmorphism int -> R} -> RExpr int -> RExpr R
+  | RAdditive (V : nmodType@{u}) (R : semiRingType@{u}) : {additive V -> R} -> MExpr V -> RExpr R
+  | RnatAdditive (R : semiRingType@{u}) : {additive nat -> R} -> RExpr nat -> RExpr R
+  | RintAdditive (R : semiRingType@{u}) : {additive int -> R} -> RExpr int -> RExpr R
   (* variables *)
   | RX R : R -> RExpr R
-with MExpr : nmodType -> Type :=
-  | M0 V : MExpr V (* 0 *)
-  | MAdd V : MExpr V -> MExpr V -> MExpr V (* x + y *)
-  | MMuln V : MExpr V -> RExpr nat -> MExpr V (* x *+ n *)
-  | MOpp (V : zmodType) : MExpr V -> MExpr V (* - x *)
-  | MMulz (V : zmodType) : MExpr V -> RExpr int -> MExpr V (* x *~ z *)
-  | MAdditive V' V : {additive V' -> V} -> MExpr V' -> MExpr V
-  | MnatAdditive V : {additive nat -> V} -> RExpr nat -> MExpr V
-  | MintAdditive V : {additive int -> V} -> RExpr int -> MExpr V
-  | MX V : V -> MExpr V.
+with MExpr : nmodType@{u} -> Type :=
+  | M0 (V : nmodType@{u}) : MExpr V (* 0 *)
+  | MAdd (V : nmodType@{u}) : MExpr V -> MExpr V -> MExpr V (* x + y *)
+  | MMuln (V : nmodType@{u}) : MExpr V -> RExpr nat -> MExpr V (* x *+ n *)
+  | MOpp (V : zmodType@{u}) : MExpr V -> MExpr V (* - x *)
+  | MMulz (V : zmodType@{u}) : MExpr V -> RExpr int -> MExpr V (* x *~ z *)
+  | MAdditive (V' V : nmodType@{u}) : {additive V' -> V} -> MExpr V' -> MExpr V
+  | MnatAdditive (V : nmodType@{u}) : {additive nat -> V} -> RExpr nat -> MExpr V
+  | MintAdditive (V : nmodType@{u}) : {additive int -> V} -> RExpr int -> MExpr V
+  | MX (V : nmodType@{u}) : V -> MExpr V.
 
 Scheme RExpr_ind' := Induction for RExpr Sort Prop
   with MExpr_ind' := Induction for MExpr Sort Prop.
 
 (* Evaluation function for above type                                         *)
 (* Evaluating result of reification should be convertible to input expr.      *)
-Fixpoint Reval R (e : RExpr R) : R :=
+Fixpoint Reval@{u} (R : semiRingType@{u}) (e : RExpr@{u} R) : R :=
   match e with
   | R0 _ => 0
   | RAdd _ e1 e2 => Reval e1 + Reval e2
@@ -1290,15 +1290,15 @@ Fixpoint Reval R (e : RExpr R) : R :=
   | RnatC n => nat_of_large_nat n
   | RPosz e1 => Posz (Reval e1)
   | RNegz e2 => Negz (Reval e2)
-  | RMorph _ _ f e1
-  | RnatMorph _ f e1
-  | RintMorph _ f e1
-  | RnatAdditive _ f e1
+  | RMorph _ _ f e1 => f (Reval e1)
+  | RnatMorph _ f e1 => let e1 : nat := (Reval e1) in f e1
+  | RintMorph _ f e1 => let e1 : int := Reval e1 in f e1
+  | RnatAdditive _ f e1 => f (Reval e1)
   | RintAdditive _ f e1 => f (Reval e1)
   | RAdditive _ _ f e1 => f (Meval e1)
   | RX _ x => x
   end
-with Meval V (e : MExpr V) : V :=
+with Meval V (e : MExpr@{u} V) : V :=
   match e with
   | M0 _ => 0
   | MAdd _ e1 e2 => Meval e1 + Meval e2
@@ -1321,7 +1321,8 @@ End Reval_eqs.
 
 (* Pushing down morphisms in ring/field expressions by reflection *)
 Section norm.
-Variables (F : semiRingType) (F_of_N : bool -> N -> F).
+Universe f.
+Variables (F : semiRingType@{f}) (F_of_N : bool -> N -> F).
 Variables (zero one : F) (add mul : F -> F -> F).
 Variables (opp_intr : option ((F -> F) * (int -> F))).
 Variables (exp : F -> N -> F) (inv : option (F -> F)).
@@ -1397,9 +1398,10 @@ with Mnorm i V (f : V -> F) (e : MExpr V) : F :=
   | MX _ x => fun f => invi (f x)
   end f.
 
-Lemma eq_Rnorm i R (f f' : R -> F) (e : RExpr R) :
+Lemma eq_Rnorm@{u} i (R : semiRingType@{u}) (f f' : R -> F) (e : RExpr R) :
   f =1 f' -> Rnorm i f e = Rnorm i f' e.
 Proof.
+Set Printing Universes.
 pose P R e :=
   forall i (f f' : R -> F), f =1 f' -> Rnorm i f e = Rnorm i f' e.
 pose P0 V e :=
@@ -1420,7 +1422,7 @@ move: i f f'; elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 //=.
 - by move=> P e1 IHe1 i f f' feq; rewrite -(IHe1 _ f) ?feq.
 - by move=> e1 IHe1 i f f' ->.
 - by move=> V R g e1 IHe1 i f f' feq; apply: IHe1 => x; apply: feq.
-- by move=> R g e1 _ i f f' ->.
+- move=> R g e1 _ i f f' h. destruct opp_intr => //.
 - by move=> V R g e1 IHe1 i f f' feq; apply: IHe1 => x; apply: feq.
 - by move=> R g e1 _ i f f' ->.
 - by move=> R g e1 _ i f f' /[dup]-> feq; case: opp_intr.
@@ -1434,19 +1436,20 @@ move: i f f'; elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 //=.
 - by move=> V g e1 _ i f f' feq; rewrite !feq.
 - by move=> V x i f f' ->.
 Qed.
+
 End norm.
 
-Lemma Rnorm_eq_F_of_N (F : semiRingType) (f f' : bool -> N -> F) (ff' : f =2 f')
+Lemma Rnorm_eq_F_of_N@{f r} (F : semiRingType@{f}) (f f' : bool -> N -> F) (ff' : f =2 f')
   zero one add mul opp_intr exp inv pi i :
-  forall (R : semiRingType) (env : R -> F) e,
+  forall (R : semiRingType@{r}) (env : R -> F) e,
     Rnorm f zero one add mul opp_intr exp inv pi i env e =
     Rnorm f' zero one add mul opp_intr exp inv pi i env e.
 Proof.
 move=> R m e.
-pose P R e := forall f f' pi i (m : R -> F), f =2 f' ->
+pose P (R : semiRingType@{r}) (e : RExpr@{r} R) := forall f f' pi i (m : R -> F), f =2 f' ->
   Rnorm f zero one add mul opp_intr exp inv pi i m e =
   Rnorm f' zero one add mul opp_intr exp inv pi i m e.
-pose P0 V e := forall f f' pi i (m : V -> F), f =2 f' ->
+pose P0 (V : nmodType@{r}) (e : MExpr@{r} V) := forall f f' pi i (m : V -> F), f =2 f' ->
   Mnorm f zero one add mul opp_intr exp inv pi i m e =
   Mnorm f' zero one add mul opp_intr exp inv pi i m e.
 move: f f' pi i m ff'.
@@ -1456,7 +1459,7 @@ elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 /=.
 - by move=> e1 IHe1 e2 IHe2 f f' pi i m ff'; rewrite -(IHe1 f) -?(IHe2 f).
 - by move=> R e1 IHe1 e2 IHe2 f f' pi i m ff'; rewrite -(IHe1 f) -?(IHe2 f).
 - by move=> R e1 IHe1 f f' pi i m /IHe1->.
-- move=> R e1 + e2 + f f' pi i m ff'; case: opp_intr => // -[opp intr] IH1 IH2.
+- move=> R e1 IH1 e2 IH2 f f' pi i m ff'. destruct opp_intr as [[opp' intr']|] => //.
   by rewrite -(IH1 f) -?(IH2 f).
 - by [].
 - by move=> R e1 IHe1 e2 IHe2 f f' pi i m ff'; rewrite -(IHe1 f) -?(IHe2 f).
@@ -1472,7 +1475,9 @@ elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 /=.
 - by move=> e IHe f f' pi i m /IHe->.
 - by move=> R' R g e IHe f f' pi i m ff'; exact: IHe.
 - by move=> R g e IHe f f' pi i m ff'; exact: IHe.
-- by move=> R g e + f f' pi i m ff'; case: opp_intr => // -[opp intr]; apply.
+- move=> R g e h f f' pi i m ff'.
+  revert opp_intr h. unfold reverse_coercion. 
+  by case => // -[opp intr]; apply.
 - by move=> V R g e IHe f f' pi i m ff'; exact: IHe.
 - by move=> R g e IHe f f' pi i m ff'; congr mul; exact: IHe.
 - move=> R g e + f f' pi i m ff'; case: opp_intr => // -[opp intr] IH.
@@ -1491,10 +1496,9 @@ elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 /=.
   by congr mul; apply: IH.
 - by [].
 Qed.
-
-Variant field_or_ring :=
-  | Field of fieldType | Ring of ringType | SemiRing of semiRingType.
-Coercion semiring_of_field_or_ring (RF : field_or_ring) : semiRingType :=
+Variant field_or_ring@{u} :=
+  | Field of fieldType@{u} | Ring of ringType@{u} | SemiRing of semiRingType@{u}.
+Coercion semiring_of_field_or_ring@{u} (RF : field_or_ring@{u}) : semiRingType@{u} :=
   match RF with Field R => R | Ring R => R | SemiRing R => R end.
 Definition ring_opp_intr (R : field_or_ring) : option ((R -> R) * (int -> R)) :=
   match R with Field R' | Ring R' => Some (@GRing.opp R', intr) | _ => None end.
@@ -1504,7 +1508,7 @@ Definition inv_id {R : field_or_ring} := if field_inv R is Some i then i else id
 Definition invi {R : field_or_ring} i (r : R) := if i then inv_id r else r.
 
 Section correct.
-Variables (F : field_or_ring).
+Universe u. Variables (F : field_or_ring@{u}).
 
 #[local] Notation F_of_N := (fun b n => invi b (N.to_nat n)%:R).
 #[local] Notation expN := (fun x n => x ^+ N.to_nat n).
@@ -1513,12 +1517,12 @@ Variables (F : field_or_ring).
 #[local] Notation Mnorm := (Mnorm F_of_N 0 1 +%R *%R (ring_opp_intr F) expN
   (field_inv F)).
 
-Lemma Rnorm_correct pi (e : RExpr F) :
+Lemma Rnorm_correct pi (e : RExpr@{u} F) :
     pi = (if F is SemiRing _ then false else true) && pi ->
   Reval e = Rnorm pi false id e.
 Proof.
 move=> piF.
-suff: forall (i : bool) R (f : {rmorphism R -> F}) (e' : RExpr R),
+suff: forall (i : bool) R (f : GRing.RMorphism.type@{u u} R F) (e' : RExpr@{u} R),
     invi (pi && i) (f (Reval e')) = Rnorm pi i f e'.
   by move/(_ false _ idfun e); rewrite andbF.
 move=> i R f {}e.
@@ -1529,9 +1533,9 @@ have inviM b r1 r2 : invi b (r1 * r2) = invi b r1 * invi b r2 :> F.
   by case: b F r1 r2 => -[]// F' r1 r2 /[!invfM].
 have inviXn b r n : invi b (r ^+ n) = (invi b r) ^+ n :> F.
   by rewrite /invi /inv_id; case: b F r => -[]// F' r /[!exprVn].
-pose P R e := forall i (f : {rmorphism R -> F}),
+pose P R (e : RExpr@{u} R) := forall i (f : GRing.RMorphism.type@{u u} R F),
   invi (pi && i) (f (Reval e)) = Rnorm pi i f e.
-pose P0 V e := forall i (f : {additive V -> F}),
+pose P0 V (e : MExpr@{u} V) := forall i (f : {additive V -> F}),
   invi (pi && i) (f (Meval e)) = Mnorm pi i f e.
 move: i f; elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 //=.
 - by move=> R i f; rewrite rmorph0.
@@ -1562,9 +1566,15 @@ move: i f; elim e using (@RExpr_ind' P P0); rewrite {R e}/P {}/P0 //=.
 - by move=> e1 + i; case: F piF => F' -> //= IHe1 f;
     rewrite -[Negz _]intz rmorph_int /intmul mulrS -IHe1; case: (pi && i).
 - by move=> R S g e1 IHe1 i f; rewrite -/(comp f g _) IHe1.
-- move=> R g e1 IHe1 i f; rewrite -/(comp f g _) IHe1.
+- unfold reverse_coercion.
+  move=> R g e1 IHe1 i f.
+  set (natR := Datatypes_nat__canonical__GRing_SemiRing : semiRingType@{u}).
+  set fg := 
+    (comp@{u u u} f g : GRing.RMorphism.type@{u u} natR F).
+  rewrite (IHe1 i fg).
   by apply: eq_Rnorm => /= n; rewrite -[RHS](rmorph_nat (f \o g)) natn.
-- move=> R g e1 + i; case: F piF => F' -> //= IH f;rewrite -/(comp f g _) IH/=;
+- unfold reverse_coercion.
+  move=> R g e1 + i. case: F piF => F' -> //= IH f;rewrite -/(comp f g _) IH/=;
     apply: eq_Rnorm => /= n; rewrite -[RHS](rmorph_int (f \o g));
     by congr (f (g _)); rewrite intz.
 - by move=> V R g e1 IHe1 i f; rewrite -/(comp f g _) IHe1.
