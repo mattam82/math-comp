@@ -1042,6 +1042,41 @@ have [_ /=] := leqif_trans (dimv_sum_leqif _) (leqif_sum leXi).
 rewrite sum1_card card_ord !directvE /= /free andbC span_def !(big_tnth _ _ X).
 by congr (_ = _ && _); rewrite -has_pred1 -all_predC -big_all big_tnth big_andE.
 Qed.
+(* Check when primproj if directv lowers to free@{0 k} instead of free@{v k}
+
+Lemma free_directv' X : free X = (0 \notin X) && directv (\sum_(v <- X) <[v]>).
+Proof.
+have leXi i (v := tnth (in_tuple X) i): true -> dimv <[v]> <= 1 ?= iff (v != 0).
+  by rewrite -seq1_free -span_seq1 => _; apply/leqif_eq/dim_span.
+have p := leqif_sum (P := fun _ => true) leXi.
+set pa := 
+  proper_addv (nary_addv_expr@{0}
+    (index_enum@{0}
+    (fintype_ordinal__canonical__fintype_Finite (size@{v} X)))
+    (fun
+    _ : fintype_ordinal__canonical__fintype_Finite
+    (size@{v} X) => true)
+    (fun
+    i : fintype_ordinal__canonical__fintype_Finite
+    (size@{v} X) =>
+    trivial_addv
+    (vline@{v k}
+    (tnth
+    (in_tuple@{v} X) i)))).
+have h' := dimv_sum_leqif _.
+Set Printing Universes.
+Unset Printing Notations. 
+pose tr := leqif_trans (h' pa) p.
+Print trivial_addv.
+have [_ /=] := leqif_trans (h' pa) p.
+rewrite sum1_card card_ord !directvE /= /free andbC span_def.
+rewrite !(big_tnth _ _ X (fun x : vT => true)).
+by congr (_ = _ && _); rewrite -has_pred1 -all_predC -big_all big_tnth big_andE.
+Qed.
+Set Printing Universes.
+Unset Printing Notations.
+About free_directv.
+About free_directv'.*)
 
 Lemma free_not0 v X : free X -> v \in X -> v != 0.
 Proof. by rewrite free_directv andbC => /andP[_ /memPn]; apply. Qed.
