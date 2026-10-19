@@ -2215,8 +2215,8 @@ Lemma zmod_morphism_linear (R : ringType) (U : lmodType R) V
   (s : Scale.law R V) (f : U -> V) : linear_for s f -> zmod_morphism f.
 Proof. by move=> Lsf x y; rewrite -scaleN1r addrC Lsf Scale.N1op addrC. Qed.
 
-Lemma scalable_linear@{ur ul uv} (R : ringType@{ur}) (U : lmodType@{ur ul} R) V
-  (s : Scale.law@{ur uv} R V) (f : U -> V) : linear_for s f -> scalable_for s f.
+Lemma scalable_linear (R : ringType) (U : lmodType R) V
+  (s : Scale.law R V) (f : U -> V) : linear_for s f -> scalable_for s f.
 Proof.
 move=> Lsf a v.
 by rewrite -[a *:v](addrK v) (zmod_morphism_linear Lsf) Lsf addrK.
