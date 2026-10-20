@@ -618,7 +618,8 @@ Import preorder porder ssrnum ssrint archimedean algC cyclotomic.
 Import Order.Theory Num.Theory.
 Local Infix "%|" := dvdn. (* Hide polynomial divisibility. *)
 
-Variable R : finUnitRingType.
+Variable R : finUnitRingType@{0}. 
+(* Necessary because the lemmas used below force equalities *)
 
 Hypothesis domR : GRing.integral_domain_axiom R.
 Implicit Types x y : R.
