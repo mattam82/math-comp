@@ -269,7 +269,7 @@ Module Type Specification.
 
 Parameter type@{} : Type@{0}.
 
-Parameter conjMixin : Num.ClosedField@{0 0} type.
+Parameter conjMixin : Num.ClosedField@{0} type.
 
 Parameter isCountable : Countable type.
 
