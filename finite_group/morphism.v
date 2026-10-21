@@ -362,7 +362,7 @@ Lemma morphpreI R S : f @*^-1 (R :&: S) = f @*^-1 R :&: f @*^-1 S.
 Proof. by rewrite -setIIr -preimsetI. Qed.
 
 Lemma morphpreD R S : f @*^-1 (R :\: S) = f @*^-1 R :\: f @*^-1 S.
-Proof. by apply/setP=> x /[!inE]; case: (x \in D). Qed.
+Proof. by apply/setP=> x; rewrite !inE; case: (x \in D). Qed.
 
 (* kernel, domain properties *)
 
@@ -658,7 +658,7 @@ Proof. exact: morphim_cents. Qed.
 
 Lemma morphpre_norm R : f @*^-1 'N(R) \subset 'N(f @*^-1 R).
 Proof.
-by apply/subsetP=> x /[!inE] /andP[Dx Nfx]; rewrite -morphpreJ ?morphpreS.
+by apply/subsetP=> x; rewrite !inE => /andP[Dx Nfx]; rewrite -morphpreJ ?morphpreS.
 Qed.
 
 Lemma morphpre_norms R S : R \subset 'N(S) -> f @*^-1 R \subset 'N(f @*^-1 S).
@@ -1188,8 +1188,8 @@ End InjFactm.
 (* Reflected (boolean) form of morphism and isomorphism properties. *)
 
 Section ReflectProp.
-
-Variables aT rT : finGroupType.
+Universes a r.
+Variables (aT : finGroupType@{a}) (rT : finGroupType@{r}).
 
 Section Defs.
 
