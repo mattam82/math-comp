@@ -96,7 +96,7 @@ Local Coercion bool_of_rel : rel_type >-> bool.
 Definition and_rel vT (v1 v2 : vT) r :=
   if r is Rel wT w1 w2 then Rel (v1, w1) (v2, w2) else Rel v1 v2.
  
-Fixpoint rel {gT} (e : seq gT) f r :=
+Fixpoint rel@{u} {gT : finGroupType@{u}} (e : seq gT) f (r : rel_type@{u}) :=
   match f with
   | Eq2 s t => and_rel (eval e s) (eval e t) r
   | And f1 f2 => rel e f1 (rel e f2 r)
